@@ -98,7 +98,24 @@ class Basej {
 	function submit($socket, $request) {
 		socket_write($socket, $request, strlen($request));
 		$callback = socket_read($socket, 1024);
+
+		$callback = str_replace('\n', '', $callback);
+		$callback = str_replace('\'', '', $callback);
+		$callback = json_decode($callback);
+
 		return $callback;
+	}
+
+	function getWhere($array, $array_id, $value) {
+		$i = 0;
+		while($i < sizeof($array)) {
+			if($array[$i][$array_id] == $value) {
+				return $array[$i];
+			}
+			$i++;
+		}
+
+		return 'null';
 	}
 
 }
